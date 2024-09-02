@@ -1,5 +1,11 @@
+import Verification from "../components/Verification";
+
 const Home = () => {
-  return <div>Otp</div>;
+  return (
+    <div>
+      <Verification />
+    </div>
+  );
 };
 
 export default Home;
