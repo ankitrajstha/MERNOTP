@@ -7,7 +7,7 @@ interface OtpInputProps {
   handleKeyDown: (e: KeyboardEvent<HTMLInputElement>, index: number) => void;
 }
 
-const OtpInput: React.FC<OtpInputProps> = ({
+const InputField: React.FC<OtpInputProps> = ({
   index,
   value,
   handleChange,
@@ -23,4 +23,4 @@ const OtpInput: React.FC<OtpInputProps> = ({
     />
   );
 };
-export default OtpInput;
+export default InputField;

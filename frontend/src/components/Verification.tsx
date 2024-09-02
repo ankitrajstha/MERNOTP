@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import InputField from "./InputField";
 
 const Verification: React.FC = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
@@ -64,13 +65,12 @@ const Verification: React.FC = () => {
       <h2 className="heading-secondary">Enter the verification code</h2>
       <div className="input-container">
         {otp.map((data, index) => (
-          <input
+          <InputField
             key={index}
-            type="text"
-            maxLength={1}
+            index={index}
             value={data}
-            onChange={(e) => handleChange(e, index)}
-            onKeyDown={(e) => handleKeyDown(e, index)}
+            handleChange={(e) => handleChange(e, index)}
+            handleKeyDown={(e) => handleKeyDown(e, index)}
           />
         ))}
       </div>
