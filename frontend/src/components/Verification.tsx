@@ -1,7 +1,11 @@
+import axios from "axios";
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Verification: React.FC = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
@@ -32,8 +36,31 @@ const Verification: React.FC = () => {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const code = otp.join("");
+
+    try {
+      setError(null);
+      const response = await axios.post(
+        "http://localhost:5000/api/verify-code",
+        {
+          code,
+        }
+      );
+      const data = response.data;
+      navigate("/home");
+    } catch (err: any) {
+      if (err.response && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError("An unexpected error occurred.");
+      }
+    }
+  };
+
   return (
-    <form className="verification-container">
+    <form className="verification-container" onSubmit={handleSubmit}>
       <h2 className="heading-secondary">Enter the verification code</h2>
       <div className="input-container">
         {otp.map((data, index) => (
@@ -47,8 +74,9 @@ const Verification: React.FC = () => {
           />
         ))}
       </div>
+      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
       <div className="button-container">
-        <button>Submit</button>
+        <button type="submit">Submit</button>
       </div>
     </form>
   );
